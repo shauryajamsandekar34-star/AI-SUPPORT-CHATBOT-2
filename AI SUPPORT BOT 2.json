@@ -1,0 +1,155 @@
+{
+  "name": "AI SUPPORT BOT 2",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -256,
+        -80
+      ],
+      "id": "d403be62-b9a4-46ee-8f53-685d0e4c60fe",
+      "name": "When chat message received",
+      "webhookId": "c62a0442-d0a6-4431-93a2-cab3f3ce8c61"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "You are a friendly customer support assistant for ABC Learning.\n\nAnswer only using the available knowledge.\n\nIf the answer is not available, politely say:\n\n\"I don't have that information. Please contact support.\"\n\nKeep answers short and professional.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        80,
+        -80
+      ],
+      "id": "09a5bb37-87f4-4f79-bdff-4717745488ad",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -160,
+        128
+      ],
+      "id": "1c988150-e3d5-4312-966e-8fefaad04bf0",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "jKykVtUrBQLvwePp",
+          "name": "Google Gemini(PaLM) Api account 5"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Company Name:\nABC Learning\n\nSupport Hours:\nMonday-Friday\n9 AM to 6 PM\n\nEmail:\nsupport@abclearning.com\n\nCertificate:\nCertificates are available after completing all lessons.\n\nRefund:\nRefunds are allowed within 7 days.\n\nPassword:\nClick \"Forgot Password\" on the login page.\n\nCourses:\nPython\nJava\nAI\nData Science",
+        "workflowId": {
+          "__rl": true,
+          "value": "nApirBppBT13ZcNc",
+          "mode": "list",
+          "cachedResultName": "My Sub-Workflow 1",
+          "cachedResultUrl": "/workflow/nApirBppBT13ZcNc"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        336,
+        96
+      ],
+      "id": "61a1a311-54e0-4586-be61-2db0704799b3",
+      "name": "Call n8n Workflow Tool"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "support-agent"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        80,
+        128
+      ],
+      "id": "7300af96-d669-4f8d-ad5d-8150b75f113e",
+      "name": "Simple Memory"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call n8n Workflow Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "255299a4-eccc-431e-863c-ea90dee6822a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "59ac11fe5a9895709bb34644fd74288a60e5aafe1eb08f33d43ef1759bbc1cea"
+  },
+  "nodeGroups": [],
+  "id": "rNrQN2EK52dhJ1Kd",
+  "tags": []
+}
